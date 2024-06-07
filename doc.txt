@@ -1,0 +1,33 @@
+--- REGISTER
+POST /auth/register
+BODY
+    firstName
+    lastName
+    email
+    password
+    confirmPassword
+RESPONSE
+    200 message: register successful
+    400 message: register failed
+    500 message: internal server error
+
+-- LOGIN
+POST /auth/login
+BODY
+    email
+    password
+RESPONSE
+    200 message: register successful
+    400 message: register failed
+    500 message: internal server error
+
+--- GET AUTHENTICATED USER
+GET /auth/me
+HEADER
+  Authorization Bearer access_token
+RESPONSE
+  200 user
+  400 message: get user failed
+  401 message: unauthorized access
+  500 message: internal server error
+

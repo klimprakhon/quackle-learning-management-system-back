@@ -1,0 +1,112 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement()) @map("user_id")
+  firstName String @db.VarChar(100) @map("firstname")
+  lastName String @db.VarChar(100) @map("lastname")
+  email String @db.VarChar(100)
+  password String @db.VarChar(100)
+  isAdmin Boolean @default(false) @map("is_admin")
+  createdAt DateTime @default(now()) @db.Timestamp(0) @map("created_at")
+  updatedAt DateTime @updatedAt @db.Timestamp(0) @map("updated_at")
+
+  enrollments Enrollment[]
+
+  @@map("users")
+}
+
+enum Status {
+  ENROLLED
+  PENDING
+  CANCELED
+  COMPLETED
+}
+
+model Enrollment {
+  id Int @id @default(autoincrement()) @map("enroll_id")
+  courseId Int @map("course_id")
+  studentId Int @map("student_id")
+  enrolledAt DateTime @default(now()) @db.Timestamp(0) @map("enrolled_at")
+  status Status
+
+  student User @relation(fields: [studentId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+
+
+  @@map("enrollments")
+}
+
+enum Category {
+  DATA
+  BUSINESS
+  MARKETING
+  TECH
+}
+
+model Course {
+  id Int @id @default(autoincrement()) @map("course_id")
+  courseTitle String @db.VarChar(200) @map("course_title")
+  description String @db.Text
+  price Int
+  coverImage String @map("cover_image")
+  category Category
+  instructorId Int @map("instructor_id")
+  createdAt DateTime @default(now()) @db.Timestamp(0) @map("created_at")
+  updatedAr DateTime @updatedAt @db.Timestamp(0) @map("updated_at")
+
+  enrollments Enrollment[]
+  topics Topic[]
+
+  instructor Instructor @relation(fields: [instructorId], references: [id])
+
+  @@map("courses")
+}
+
+model Instructor {
+  id Int @id @default(autoincrement()) @map("instructor_id")
+  firstName String @db.VarChar(100) @map("firstname")
+  lastName String @db.VarChar(100) @map("lastname")
+  roleTitle String @db.VarChar(300) @map("role_title")
+  bio String? @db.Text
+  profileImage String @map("profile_image")
+  createdAt DateTime @default(now()) @db.Timestamp(0) @map("created_at")
+  updatedAt DateTime @updatedAt @db.Timestamp(0) @map("updated_at")
+
+  courses Course[]
+
+  @@map("instructors")
+}
+
+model Topic {
+  id Int @id @default(autoincrement()) @map("topic_id")
+  topicName String @db.VarChar(50) @map("topic_name")
+  courseId Int @map("course_id")
+
+  lessons Lesson[]
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  @@map("topics")
+}
+
+model Lesson {
+  id Int @id @default(autoincrement()) @map("lesson_id")
+  lessonName String @db.VarChar(50) @map("lesson_name")
+  description String? @db.Text
+  video String? @db.Text
+  attachment String? @db.Text
+  topicId Int @map("topic_id")
+
+  topic Topic @relation(fields: [topicId], references: [id])
+  
+  @@map("lessons")
+}
+
