@@ -12,6 +12,7 @@ const authenticate = async (req, res, next) => {
 
     // extract token to verify
     const accessToken = authorization.split(" ")[1];
+
     // extract userId after verify token
     const payload = jwtService.verify(accessToken);
 

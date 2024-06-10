@@ -53,13 +53,16 @@ authController.login = async (req, res, next) => {
     // response
     return res.status(200).json({ accessToken });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
 
 authController.getMe = (req, res, next) => {
-  res.status(200).json({ user: req.user });
+  try {
+    res.status(200).json({ user: req.user });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = authController;
