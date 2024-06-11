@@ -59,7 +59,7 @@ authController.login = async (req, res, next) => {
 
 authController.getMe = (req, res, next) => {
   try {
-    res.status(200).json({ user: req.user });
+    res.status(200).json(req.user);
   } catch (error) {
     next(error);
   }

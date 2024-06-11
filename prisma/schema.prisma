@@ -55,10 +55,11 @@ model Course {
   id Int @id @default(autoincrement()) @map("course_id")
   courseTitle String @db.VarChar(200) @map("course_title")
   description String @db.Text
-  price Int
+  price Float
   coverImage String @map("cover_image")
-  category Category
+  category Category?
   instructorId Int @map("instructor_id")
+  isPublished Boolean @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0) @map("created_at")
   updatedAt DateTime? @updatedAt @db.Timestamp(0) @map("updated_at")
 
