@@ -31,3 +31,12 @@ RESPONSE
   401 message: unauthorized access
   500 message: internal server error
 
+--- GET COURSE INFO
+GET /courses/:courseId
+
+HEADER
+
+RESPONSE
+  200 course info (instructor info, cover image, description)
+  400 message: get course failed
+  500 message: internal server error

@@ -44,21 +44,22 @@ model Enrollment {
   @@map("enrollments")
 }
 
-enum Category {
-  DATA
-  BUSINESS
-  MARKETING
-  TECH
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
 }
 
 model Course {
   id Int @id @default(autoincrement()) @map("course_id")
   courseTitle String @db.VarChar(200) @map("course_title")
-  description String @db.Text
+  subtitle String @db.VarChar(200) @map("course_subtitle")
+  description String @db.LongText
   price Float
   coverImage String @map("cover_image")
-  category Category?
-  instructorId Int @map("instructor_id")
+  subcategoryId Int @map("subcategory_id")
+  level Level
+  instructorId Int? @map("instructor_id")
   isPublished Boolean @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0) @map("created_at")
   updatedAt DateTime? @updatedAt @db.Timestamp(0) @map("updated_at")
@@ -66,9 +67,32 @@ model Course {
   enrollments Enrollment[]
   topics Topic[]
 
-  instructor Instructor @relation(fields: [instructorId], references: [id])
+  subcategory Subcategory @relation(fields: [subcategoryId], references: [id])
+  instructor Instructor? @relation(fields: [instructorId], references: [id])
 
   @@map("courses")
+}
+
+model Category {
+  id Int @id @default(autoincrement()) @map("category_id")
+  name String @db.VarChar(30) @unique @map("category_name")
+
+  subcategories Subcategory[]
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id Int @id @default(autoincrement()) @map("subcategory_id")
+  name String @db.VarChar(100) @unique
+  categoryId Int
+
+  courses Course[]
+  
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@map("subcaetogies")
+
 }
 
 model Instructor {

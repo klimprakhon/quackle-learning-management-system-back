@@ -1,8 +1,17 @@
 const express = require("express");
 const courseController = require("../controllers/course-controller");
+const upload = require("../middlewares/upload");
 
-const courseRoute = express.Router();
+const courseRouter = express.Router();
 
-courseRoute.get("/:courseId", courseController.getCourse);
+courseRouter.get("/test", courseController.getCourseBySubcategory);
 
-module.exports = courseRoute;
+courseRouter.post(
+  "/new-course",
+  upload.single("coverImage"),
+  courseController.createCourse
+);
+
+courseRouter.get("/:courseId", courseController.getCourse);
+
+module.exports = courseRouter;
