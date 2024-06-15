@@ -56,3 +56,5 @@ const run = async () => {
   await prisma.instructor.createMany({ data: instructorData });
   await prisma.course.createMany({ data: courseData });
 };
+
+run();
