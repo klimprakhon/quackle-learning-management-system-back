@@ -7,6 +7,7 @@ const authRouter = require("./src/routes/auth-route");
 const categoryRouter = require("./src/routes/category-route");
 const courseRouter = require("./src/routes/course-route");
 const topicRouter = require("./src/routes/topic-route");
+const lessonRouter = require("./src/routes/lesson-route");
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use("/auth", authRouter);
 app.use("/course", courseRouter);
 app.use("/category", categoryRouter);
 app.use("/topic", topicRouter);
-// app.use("/lesson", lessonRouter);
+app.use("/lesson", lessonRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
