@@ -4,7 +4,7 @@ const upload = require("../middlewares/upload");
 
 const courseRouter = express.Router();
 
-courseRouter.get("/test", courseController.getCourseBySubcategory);
+// courseRouter.get("/test", courseController.getCourseBySubcategory);
 
 courseRouter.post(
   "/new-course",
@@ -13,5 +13,7 @@ courseRouter.post(
 );
 
 courseRouter.get("/:courseId", courseController.getCourse);
+
+courseRouter.patch("/:courseId", courseController.updateCourseInfo);
 
 module.exports = courseRouter;

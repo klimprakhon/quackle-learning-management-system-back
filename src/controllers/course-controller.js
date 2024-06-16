@@ -8,7 +8,7 @@ const courseController = {};
 
 courseController.getCourse = async (req, res, next) => {
   try {
-    const courseId = req.params.courseId;
+    const courseId = +req.params.courseId;
 
     const courseInfo = await courseService.findCourseById(courseId);
 
@@ -42,6 +42,22 @@ courseController.createCourse = async (req, res, next) => {
     if (req.file) {
       fs.unlink(req.file.path);
     }
+  }
+};
+
+courseController.updateCourseInfo = async (req, res, next) => {
+  try {
+    const courseId = +req.params.courseId;
+    const updateData = req.body;
+
+    const updatedCourse = await courseService.updateCourseInfo(
+      courseId,
+      updateData
+    );
+
+    res.status(200).json(updatedCourse);
+  } catch (error) {
+    next(error);
   }
 };
 
