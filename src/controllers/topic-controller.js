@@ -5,10 +5,16 @@ const topicController = {};
 topicController.createTopics = async (req, res, next) => {
   try {
     const topics = req.body;
+    await topicService.createTopics(topics);
 
-    const createdTopics = await topicService.createTopics(data);
+    const [data] = topics;
+    const { courseId } = data;
 
-    res.status(200).json(createdTopics);
+    const topicIds = await topicService.getCreatedTopicIds(courseId);
+
+    console.log(topicIds);
+
+    res.status(200).json(topicIds);
   } catch (error) {
     next(error);
   }

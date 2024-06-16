@@ -30,12 +30,31 @@ lessonController.createLessons = async (req, res, next) => {
 
     const uploadedFiles = await Promise.all(uploadPromises);
 
-    const lessonInfo = lessons.map((lesson, index) => ({
-      name: lesson.name,
-      topicId: lesson.topicId,
-      attachment: uploadedFiles[index].attachmentUrl,
-    }));
+    // Deal with file upload and plain text in the attachment
+    let fileIndex = 0;
+    const lessonInfo = lessons.map((lesson) => {
+      if (lesson.attachment instanceof File) {
+        return {
+          lessonName: lesson.name,
+          topicId: lesson.topicId,
+          attachment: uploadedFiles[fileIndex++].attachmentUrl,
+        };
+      } else {
+        return {
+          lessonName: lesson.name,
+          topicId: lesson.topicId,
+          attachment: lesson.attachment, // for text description
+        };
+      }
+    });
 
+    // const lessonInfo = lessons.map((lesson, index) => ({
+    //   name: lesson.name,
+    //   topicId: lesson.topicId,
+    //   attachment: uploadedFiles[index].attachmentUrl,
+    // }));
+
+    console.log(lessonInfo);
     // inject to database
     const createdLessons = await lessonService.createLessons(lessonInfo);
 
