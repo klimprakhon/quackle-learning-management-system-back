@@ -19,4 +19,8 @@ courseService.updateCourseInfo = (courseId, data) => {
   });
 };
 
+courseService.getAll = () => {
+  return prisma.course.findMany();
+};
+
 module.exports = courseService;

@@ -15,4 +15,12 @@ enrollmentService.findExitedEnrollment = (studentId, courseId) => {
   });
 };
 
+enrollmentService.getAll = (studentId) => {
+  return prisma.enrollment.findMany({
+    where: {
+      studentId: studentId,
+    },
+  });
+};
+
 module.exports = enrollmentService;

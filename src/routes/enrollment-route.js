@@ -5,6 +5,8 @@ const { existedEnrollment } = require("../middlewares/validator");
 
 const enrollmentRouter = express.Router();
 
+enrollmentRouter.get("/check", enrollmentController.getAll);
+
 enrollmentRouter.post(
   "/new",
   upload.single("paymentSlip"),

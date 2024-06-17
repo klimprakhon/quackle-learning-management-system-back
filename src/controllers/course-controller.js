@@ -32,7 +32,6 @@ courseController.createCourse = async (req, res, next) => {
 
     // get secure image url from cloudinary
     data.coverImage = await uploadService.upload(req.file.path);
-    console.log(data);
     // inject secure data into database
     const courseInfo = await prisma.course.create({ data }); // ************* create a service **************** //
     res.status(200).json({ courseInfo });
@@ -56,6 +55,15 @@ courseController.updateCourseInfo = async (req, res, next) => {
     );
 
     res.status(200).json(updatedCourse);
+  } catch (error) {
+    next(error);
+  }
+};
+
+courseController.getAllCourse = async (req, res, next) => {
+  try {
+    const allCourse = await courseService.getAll();
+    res.status(200).json(allCourse);
   } catch (error) {
     next(error);
   }

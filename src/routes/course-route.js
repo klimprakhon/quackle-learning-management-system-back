@@ -4,6 +4,8 @@ const upload = require("../middlewares/upload");
 
 const courseRouter = express.Router();
 
+courseRouter.get("/all", courseController.getAllCourse);
+
 // courseRouter.get("/test", courseController.getCourseBySubcategory);
 
 courseRouter.post(

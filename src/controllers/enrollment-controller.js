@@ -30,4 +30,15 @@ enrollmentController.createEnrollment = async (req, res, next) => {
   }
 };
 
+enrollmentController.getAll = async (req, res, next) => {
+  try {
+    const studentId = req.body.studentId;
+
+    const allEnrollments = await enrollmentService.getAll(studentId);
+    res.status(200).json(allEnrollments);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = enrollmentController;
