@@ -5,7 +5,9 @@ const { existedEnrollment } = require("../middlewares/validator");
 
 const enrollmentRouter = express.Router();
 
-enrollmentRouter.get("/check", enrollmentController.getAll);
+enrollmentRouter.get("/all", enrollmentController.getAll);
+
+enrollmentRouter.get("/check", enrollmentController.getAllByStudentId);
 
 enrollmentRouter.post(
   "/new",
@@ -13,5 +15,7 @@ enrollmentRouter.post(
   existedEnrollment,
   enrollmentController.createEnrollment
 );
+
+enrollmentRouter.patch("/status", enrollmentController.updateStatus);
 
 module.exports = enrollmentRouter;

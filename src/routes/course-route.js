@@ -6,6 +6,8 @@ const courseRouter = express.Router();
 
 courseRouter.get("/all", courseController.getAllCourse);
 
+courseRouter.post("/enrolled", courseController.findAllEnrolledCourse);
+
 // courseRouter.get("/test", courseController.getCourseBySubcategory);
 
 courseRouter.post(

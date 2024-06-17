@@ -69,6 +69,21 @@ courseController.getAllCourse = async (req, res, next) => {
   }
 };
 
+courseController.findAllEnrolledCourse = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const courseIds = Object.values(data);
+
+    const allEnrolledCourse = await courseService.findAllEnrolledCourse(
+      courseIds
+    );
+
+    res.status(200).json(allEnrolledCourse);
+  } catch (error) {
+    next(error);
+  }
+};
+
 courseController.getCourseBySubcategory = async (req, res, next) => {
   try {
     const filterCourse = await getCourseBySubcategory(10);

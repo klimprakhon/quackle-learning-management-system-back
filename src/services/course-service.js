@@ -23,4 +23,8 @@ courseService.getAll = () => {
   return prisma.course.findMany();
 };
 
+courseService.findAllEnrolledCourse = (courseIds) => {
+  return prisma.course.findMany({ where: { id: { in: courseIds } } });
+};
+
 module.exports = courseService;

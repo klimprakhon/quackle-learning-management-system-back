@@ -15,11 +15,24 @@ enrollmentService.findExitedEnrollment = (studentId, courseId) => {
   });
 };
 
-enrollmentService.getAll = (studentId) => {
+enrollmentService.findEnrollById = (studentId) => {
   return prisma.enrollment.findMany({
     where: {
       studentId: studentId,
     },
+  });
+};
+
+enrollmentService.allEnrollment = () => {
+  return prisma.enrollment.findMany({
+    include: { student: true },
+  });
+};
+
+enrollmentService.updateStatus = (id, status) => {
+  return prisma.enrollment.update({
+    where: { id: id },
+    data: { status: status },
   });
 };
 

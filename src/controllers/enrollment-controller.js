@@ -30,12 +30,38 @@ enrollmentController.createEnrollment = async (req, res, next) => {
   }
 };
 
-enrollmentController.getAll = async (req, res, next) => {
+enrollmentController.getAllByStudentId = async (req, res, next) => {
   try {
     const studentId = req.body.studentId;
 
-    const allEnrollments = await enrollmentService.getAll(studentId);
+    const allEnrollments = await enrollmentService.findEnrollById(studentId);
     res.status(200).json(allEnrollments);
+  } catch (error) {
+    next(error);
+  }
+};
+
+enrollmentController.getAll = async (req, res, next) => {
+  try {
+    const allEnrollments = await enrollmentService.allEnrollment();
+    res.status(200).json(allEnrollments);
+  } catch (error) {
+    next(error);
+  }
+};
+
+enrollmentController.updateStatus = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data);
+
+    data.id = +data.enrollmentId;
+
+    const updateStatus = await enrollmentService.updateStatus(
+      data.id,
+      data.status
+    );
+    res.status(200).json(updateStatus);
   } catch (error) {
     next(error);
   }
