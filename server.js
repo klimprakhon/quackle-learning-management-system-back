@@ -9,6 +9,7 @@ const courseRouter = require("./src/routes/course-route");
 const topicRouter = require("./src/routes/topic-route");
 const lessonRouter = require("./src/routes/lesson-route");
 const instructorRouter = require("./src/routes/instructor-route");
+const enrollmentRouter = require("./src/routes/enrollment-route");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/category", categoryRouter);
 app.use("/topic", topicRouter);
 app.use("/lesson", lessonRouter);
 app.use("/instructor", instructorRouter);
+app.use("/enrollment", enrollmentRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

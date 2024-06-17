@@ -35,7 +35,8 @@ model Enrollment {
   courseId Int @map("course_id")
   studentId Int @map("student_id")
   enrolledAt DateTime @default(now()) @db.Timestamp(0) @map("enrolled_at")
-  status Status
+  status Status @default(PENDING)
+  paymentSlip String? @db.Text @map("payment_slip")
 
   student User @relation(fields: [studentId], references: [id])
   course Course @relation(fields: [courseId], references: [id])

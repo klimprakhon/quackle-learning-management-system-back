@@ -34,7 +34,7 @@ courseController.createCourse = async (req, res, next) => {
     data.coverImage = await uploadService.upload(req.file.path);
     console.log(data);
     // inject secure data into database
-    const courseInfo = await prisma.course.create({ data });
+    const courseInfo = await prisma.course.create({ data }); // ************* create a service **************** //
     res.status(200).json({ courseInfo });
   } catch (error) {
     next(error);

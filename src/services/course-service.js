@@ -7,7 +7,7 @@ courseService.findCourseById = (courseId) => {
     where: { id: courseId },
     include: {
       instructor: true,
-      category: { include: { subcategories: true } },
+      subcategory: { include: { category: true } },
     },
   });
 };
