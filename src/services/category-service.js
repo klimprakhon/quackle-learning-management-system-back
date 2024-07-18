@@ -10,4 +10,11 @@ categoryService.getSubcategoryById = (categoryId) => {
   return prisma.subcategory.findMany({ where: { categoryId: +categoryId } });
 };
 
+categoryService.getSubcategoryByCategoryName = (categoryName) => {
+  return prisma.category.findUnique({
+    where: { name: categoryName },
+    include: { subcategories: true },
+  });
+};
+
 module.exports = categoryService;

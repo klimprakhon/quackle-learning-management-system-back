@@ -51,10 +51,15 @@ const courseData = [
 ];
 
 const run = async () => {
-  await prisma.category.createMany({ data: categoryData });
-  await prisma.subcategory.createMany({ data: subcategoryData });
-  await prisma.instructor.createMany({ data: instructorData });
-  await prisma.course.createMany({ data: courseData });
+  try {
+    await prisma.category.createMany({ data: categoryData });
+    await prisma.subcategory.createMany({ data: subcategoryData });
+    await prisma.instructor.createMany({ data: instructorData });
+    await prisma.course.createMany({ data: courseData });
+    console.log("Database seeded successfully!");
+  } catch (error) {
+    console.error("Error seeding database:", error);
+  }
 };
 
 run();

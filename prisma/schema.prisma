@@ -39,7 +39,7 @@ model Enrollment {
   paymentSlip String? @db.Text @map("payment_slip")
 
   student User @relation(fields: [studentId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
 
   @@map("enrollments")
@@ -126,8 +126,6 @@ model Topic {
 model Lesson {
   id Int @id @default(autoincrement()) @map("lesson_id")
   lessonName String @db.VarChar(50) @map("lesson_name")
-  description String? @db.Text
-  video String? @db.Text
   attachment String? @db.Text
   topicId Int @map("topic_id")
 

@@ -3,6 +3,7 @@ const fs = require("fs/promises");
 const courseService = require("../services/course-service");
 const { getCourseBySubcategory } = require("../services/test");
 const uploadService = require("../services/upload-service");
+const categoryService = require("../services/category-service");
 
 const courseController = {};
 
@@ -63,6 +64,7 @@ courseController.updateCourseInfo = async (req, res, next) => {
 courseController.getAllCourse = async (req, res, next) => {
   try {
     const allCourse = await courseService.getAll();
+    // console.log(allCourse, "Here");
     res.status(200).json(allCourse);
   } catch (error) {
     next(error);
@@ -88,6 +90,83 @@ courseController.getCourseBySubcategory = async (req, res, next) => {
   try {
     const filterCourse = await getCourseBySubcategory(10);
     res.status(200).json({ filterCourse });
+  } catch (error) {
+    next(error);
+  }
+};
+
+courseController.getAllDetails = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const courseId = +data.courseId;
+
+    const allDetails = await courseService.getAllDetails(courseId);
+
+    res.status(200).json(allDetails);
+  } catch (error) {
+    next(error);
+  }
+};
+
+courseController.deleteCourse = async (req, res, next) => {
+  try {
+    const courseId = +req.params.courseId;
+
+    // Delete all lessons related to the topics of the course
+    const topics = await prisma.topic.findMany({
+      where: { courseId },
+      select: { id: true },
+    });
+
+    const topicIds = topics.map((topic) => topic.id);
+
+    console.log("Deleting lessons...");
+    await prisma.lesson.deleteMany({
+      where: { topicId: { in: topicIds } },
+    });
+
+    // Delete all topics related to the course
+    console.log("Deleting topics...");
+    await prisma.topic.deleteMany({
+      where: { courseId },
+    });
+
+    // Delete all enrollments related to the course
+    console.log("Deleting enrollments...");
+    await prisma.enrollment.deleteMany({
+      where: { courseId },
+    });
+
+    const isDeleted = await courseService.deleteCourse(courseId);
+    res.status(201).json(isDeleted);
+  } catch (error) {
+    next(error);
+  }
+};
+
+courseController.getCoursesByCategory = async (req, res, next) => {
+  const { categoryName } = req.params;
+  console.log(categoryName);
+
+  try {
+    const category = await categoryService.getSubcategoryByCategoryName(
+      categoryName
+    );
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Find courses in all subcategories of the category
+    const subcategoryIds = category.subcategories.map(
+      (subcategory) => subcategory.id
+    );
+
+    const filterCourses = await courseService.getCoursesBySubcategoryId(
+      subcategoryIds
+    );
+
+    res.json(filterCourses);
   } catch (error) {
     next(error);
   }

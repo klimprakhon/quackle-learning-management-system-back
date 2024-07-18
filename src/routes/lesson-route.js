@@ -10,4 +10,6 @@ lessonRouter.post(
   lessonController.createLessons
 );
 
+// lessonRouter.post("/details", lessonController.getAllDetails);
+
 module.exports = lessonRouter;
