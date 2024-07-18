@@ -1,5 +1,9 @@
 const enrollmentService = require("../services/enrollment-service");
-const { registerSchema, loginSchema } = require("../validator/auth-validator");
+const {
+  registerSchema,
+  loginSchema,
+  infoSchema,
+} = require("../validator/auth-validator");
 
 const validator = {};
 
@@ -52,6 +56,18 @@ validator.existedEnrollment = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+validator.userInfo = (req, res, next) => {
+  const { value, error } = infoSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  req.input = value;
+
+  next();
 };
 
 module.exports = validator;

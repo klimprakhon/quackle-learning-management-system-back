@@ -12,5 +12,11 @@ authRouter.post(
 );
 authRouter.post("/login", validator.loginValidation, authController.login);
 authRouter.get("/me", authenticate, authController.getMe);
+authRouter.post(
+  "/update",
+  authenticate,
+  validator.userInfo,
+  authController.updateUserInfo
+);
 
 module.exports = authRouter;

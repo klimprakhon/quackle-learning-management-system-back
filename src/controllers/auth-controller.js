@@ -65,4 +65,19 @@ authController.getMe = (req, res, next) => {
   }
 };
 
+authController.updateUserInfo = async (req, res, next) => {
+  try {
+    const data = req.input;
+    const userId = req.user.id;
+
+    data.password = await hashService.hash(data.password);
+
+    const updatedUserInfo = await userService.updateInfo(userId, data);
+    delete updatedUserInfo.password;
+    res.status(200).json(updatedUserInfo);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = authController;

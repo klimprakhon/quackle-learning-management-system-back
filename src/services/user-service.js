@@ -17,4 +17,8 @@ userService.findUserById = (userId) => {
   return prisma.user.findFirst({ where: { id: userId } });
 };
 
+userService.updateInfo = (userId, data) => {
+  return prisma.user.update({ where: { id: userId }, data });
+};
+
 module.exports = userService;
