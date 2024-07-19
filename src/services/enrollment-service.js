@@ -19,6 +19,7 @@ enrollmentService.findEnrollById = (studentId) => {
   return prisma.enrollment.findMany({
     where: {
       studentId: studentId,
+      status: "ENROLLED",
     },
   });
 };
